@@ -1,6 +1,11 @@
 "use strinct";
 
 const { graphql, buildSchema } = require("graphql");
+const express = require("express");
+const { graphqlHTTP } = require("express-graphql");
+
+const app = express();
+const port = process.env.port || 3000;
 
 //Definiendo el esquema
 const schema = buildSchema(`
@@ -22,15 +27,15 @@ const resolvers = {
 
 //Se define un resolver para cada query
 
-//Ejecutar el query
-graphql({
-  schema: schema,
-  source: "{ hello, saludo }",
-  rootValue: resolvers,
-})
-  .then((data) => {
-    console.log(data);
+app.use(
+  "/api",
+  graphqlHTTP({
+    schema: schema,
+    rootValue: resolvers,
+    graphiql: true,
   })
-  .catch((e) => {
-    console.log(e);
-  });
+);
+
+app.listen(port, () => {
+  console.log(`Server is listening at http://localhost:${port}/api`);
+});
