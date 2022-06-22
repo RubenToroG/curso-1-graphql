@@ -1,4 +1,8 @@
 Instalación dependencias
-npm i graphql
+graphql
+express
+express-graphql
 
-npm i express express-graphql
+Dependencias de desarrollo
+nodemon
+standard
